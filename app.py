@@ -1,37 +1,14 @@
 import os
 import pdfplumber
-import pytesseract
-from pytesseract import image_to_string
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
-import pandas as pd
-from flask import Flask, render_template, request, send_file
-from werkzeug.utils import secure_filename
-from openpyxl import Workbook
-import fitz 
-import cv2
-import numpy as np
-import pdfplumber
-import pytesseract
-from PIL import Image
-import pandas as pd
-from openpyxl import Workbook
-import re
-
-import pandas as pd
-from pdf2image import convert_from_path
-poppler_path = r"C:\Users\akshat shrinate\Release-24.08.0-0\poppler-24.08.0\Library\bin"
-
-
-app = Flask(__name__)
-# Specify your Poppler path
-app.secret_key = "Akshat123"
-import os
-import pdfplumber
 import pandas as pd
 from flask import Flask, render_template, request, send_file, redirect, url_for, flash
 from werkzeug.utils import secure_filename
 from pytesseract import image_to_string
+pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
+
+app = Flask(__name__)
+app.secret_key = "Akshat123" 
 
 
 # Configure upload & output folders
@@ -86,7 +63,7 @@ def extract_tables_from_pdf(pdf_path):
             sorted_line = sorted(line, key=lambda x: x[0])
             row = [word_text for _, word_text in sorted_line]
 
-            # If first row looks like a header, store it such that tables can be mergef
+            # First row is a header, stored such that tables on various pages can be merged 
             if last_headers is None:
                 last_headers = row  # Treat first row as header
             elif row == last_headers:
@@ -148,11 +125,11 @@ def index():
         output_filename = filename.replace(".pdf", ".xlsx")
         output_path = os.path.join(app.config['OUTPUT_FOLDER'], output_filename)
 
-        tables = extract_tables_from_pdf(pdf_path)  # ✅ Extract Tables
+        tables = extract_tables_from_pdf(pdf_path) 
         if not tables:
             return render_template("index.html", error="No tables found.")
 
-        save_tables_to_excel(tables, output_path)  # ✅ Save to Excel
+        save_tables_to_excel(tables, output_path)
 
         return render_template("index.html", filename=output_filename)
 
