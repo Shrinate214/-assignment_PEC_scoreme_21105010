@@ -1,0 +1,3 @@
+Run the following code in terminal : pip install pdfplumber pandas flask
+Download pytessearct from Github and install it. Once installed the environment variables need to be chagned to have tessearct on path.
+Run the following code in terminal : pip install pytessearct 
